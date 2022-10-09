@@ -137,9 +137,7 @@ public class Manager {
      * @param task принимает значение задачи
      */
     public void deleteTask (Task task) {
-        if (tasks.containsKey(task.getId())) {
             tasks.remove(task.getId());
-        }
     }
     /**
      *Метод удаляет выбранный эпик и его подзадачи
@@ -148,16 +146,12 @@ public class Manager {
      */
     public void deleteEpic (Epic epic) {
         ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
-
-
-        if (epics.containsKey(epic.getId())) {
             for (int subtaskId : subtaskIds) {
 
                 Subtask subtask = subtasks.get(subtaskId);
                 deleteEpicSubtasks(subtask);
             }
             epics.remove(epic.getId());
-        }
     }
     /**
      *Метод удаляет подзадачи при удалении эпика
@@ -165,13 +159,7 @@ public class Manager {
      * @param subtask принимает значение подзадачи
      */
     public void deleteEpicSubtasks (Subtask subtask) {
-
-
-        if (subtasks.containsKey(subtask.getId())) {
-
-            subtasks.remove(subtask.getId());
-
-        }
+        subtasks.remove(subtask.getId());
     }
     /**
      *Метод удаляет подзадачу
@@ -188,7 +176,6 @@ public class Manager {
         if (subtasks.containsKey(subtask.getId())) {
 
             deleteId = subtaskIds.indexOf(subtask.getId());
-            System.out.println(deleteId);
             epic.deleteSubtaskID(deleteId);
             subtasks.remove(subtask.getId());
             updateEpicStatus(epic);
