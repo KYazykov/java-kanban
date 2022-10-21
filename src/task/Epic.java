@@ -1,6 +1,9 @@
 package task;
 
+import manager.Status;
+
 import java.util.ArrayList;
+
 
 public class Epic extends Task {
 
@@ -12,22 +15,22 @@ public class Epic extends Task {
     }
 
 
-    public Epic(int id, String name, String description, String status) {
+    public Epic(int id, String name, String description, Status status) {
         super(id, name, description, status);
         subtaskIds = new ArrayList<>();
     }
 
-    public Epic(String name, String description, String status) {
+    public Epic(String name, String description, Status status) {
         super(name, description, status);
 
     }
 
-    public Epic(int id, String name, String description, String status, ArrayList<Integer> subtaskIds) {
+    public Epic(int id, String name, String description, Status status, ArrayList<Integer> subtaskIds) {
         super(id, name, description, status);
         this.subtaskIds = subtaskIds;
     }
 
-    public Epic(String name, String description, String status, ArrayList<Integer> subtaskIds) {
+    public Epic(String name, String description, Status status, ArrayList<Integer> subtaskIds) {
         super(name, description, status);
         this.subtaskIds = subtaskIds;
     }
