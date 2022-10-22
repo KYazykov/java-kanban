@@ -5,6 +5,10 @@ import task.Task;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Класс реализует методы интерфейса по истории просмотра задачи
+ *
+ */
 public class InMemoryHistoryManager implements HistoryManager {
 
     private final LinkedList<Task> history = new LinkedList<>();

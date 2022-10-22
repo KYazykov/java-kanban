@@ -198,11 +198,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
 
-    /**
-     * Метод добавляет эпик
-     *
-     * @param epic принимает значение эпика
-     */
     @Override
     public void addEpic(Epic epic) {
 
