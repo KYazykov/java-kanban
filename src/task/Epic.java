@@ -1,13 +1,13 @@
 package task;
 
-import manager.Status;
+import task.manager.Status;
 
 import java.util.ArrayList;
 
 
 public class Epic extends Task {
 
-    private ArrayList <Integer> subtaskIds = new ArrayList<>();
+    private ArrayList<Integer> subtaskIds = new ArrayList<>();
 
 
     public ArrayList<Integer> getSubtaskIds() {
@@ -41,6 +41,7 @@ public class Epic extends Task {
         subtaskIds.add(subtaskId);
 
     }
+
     public void deleteSubtaskID(int subtaskId) {
 
 

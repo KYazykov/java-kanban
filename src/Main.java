@@ -1,11 +1,11 @@
-import manager.InMemoryTaskManager;
+import task.manager.InMemoryTaskManager;
 import task.Epic;
 import task.Subtask;
 import task.Task;
 
-import static manager.Status.NEW;
-import static manager.Status.IN_PROGRESS;
-import static manager.Status.DONE;
+import static task.manager.Status.NEW;
+import static task.manager.Status.IN_PROGRESS;
+import static task.manager.Status.DONE;
 
 public class Main {
 
@@ -36,8 +36,8 @@ public class Main {
         System.out.println(manager.getEpics());
         System.out.println(manager.getSubtasks());
 
-        Subtask subtaskChange1 = new Subtask(1,"Собрать вещи", "Упаковать стулья", DONE, 0);
-        Subtask subtaskChange2 = new Subtask(2,"Накопить деньги", "Собрать 10 000", IN_PROGRESS, 0);
+        Subtask subtaskChange1 = new Subtask(1, "Собрать вещи", "Упаковать стулья", DONE, 0);
+        Subtask subtaskChange2 = new Subtask(2, "Накопить деньги", "Собрать 10 000", IN_PROGRESS, 0);
 
         manager.changeSubtask(subtaskChange2);
         manager.changeSubtask(subtaskChange1);
@@ -46,11 +46,9 @@ public class Main {
         System.out.println(manager.getEpics());
 
 
-
         System.out.println(manager.getSubtasks());
         System.out.println(manager.getEpics());
         System.out.println("1");
-
 
 
         System.out.println("2");

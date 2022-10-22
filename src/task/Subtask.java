@@ -1,6 +1,6 @@
 package task;
 
-import manager.Status;
+import task.manager.Status;
 
 
 public class Subtask extends Task {
