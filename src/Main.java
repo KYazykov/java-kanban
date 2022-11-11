@@ -62,13 +62,16 @@ public class Main {
 
         System.out.println(manager.findEpicSubtasks(0));
         System.out.println(manager.getTask(5));
+
         System.out.println(manager.getSubtask(1));
         System.out.println(manager.getEpic(0));
         System.out.println(manager.getSubtask(2));
+        System.out.println(manager.getSubtask(1));
+
+        manager.deleteEpic(epic1);
         System.out.println("История");
 
         System.out.println(manager.getHistory());
-        System.out.println(manager.getSubtask(1));
 
     }
 }

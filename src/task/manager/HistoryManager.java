@@ -16,8 +16,15 @@ public interface HistoryManager {
      */
     void addTaskHistory(Task task);
 
+
+
     /**
-     * Метод показывает историю просмтренных задач
+     * Метод удаляет задачу из истории просмотров
+     */
+    void removeHistory(int id);
+
+    /**
+     * Метод показывает историю просмотренных задач
      */
     List<Task> getHistory();
 }
