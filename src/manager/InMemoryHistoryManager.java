@@ -1,11 +1,8 @@
-package task.manager;
+package manager;
 
 import task.Task;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Класс реализует методы интерфейса по истории просмотра задачи
@@ -13,18 +10,18 @@ import java.util.Map;
  */
 public class InMemoryHistoryManager implements HistoryManager {
 
-    Map <Integer, Node> nodes = new HashMap<>();
+    private final Map <Integer, Node> nodes = new HashMap<>();
 
     Node first;
     Node last;
 
-    private final LinkedList<Task> history = new LinkedList<>();
+
 
     /**
      * Метод привязывает ноду к последнему указателю
      *
      */
-    public void linkLast(Task task) {
+    private void linkLast(Task task) {
         final Node newNode = new Node(task, last, null);
         if (first == null) {
             first = newNode;
@@ -36,6 +33,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
+        final List<Task> history = new ArrayList<>();
 
         Node curNode = first;
         while (curNode != null){
@@ -82,6 +80,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
+    /**
+     * Класс создает связной список для методов по просмотру истории
+     *
+     */
    static class Node {
         private Task value;
         private Node prev;

@@ -1,6 +1,7 @@
-package task.manager;
+package manager;
 
 import task.Epic;
+import task.Status;
 import task.Subtask;
 import task.Task;
 
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static task.manager.Status.NEW;
-import static task.manager.Status.IN_PROGRESS;
+import static task.Status.NEW;
+import static task.Status.IN_PROGRESS;
 
 public class InMemoryTaskManager implements TaskManager {
 

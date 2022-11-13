@@ -1,4 +1,4 @@
-package task.manager;
+package manager;
 
 import task.Task;
 

@@ -1,7 +1,5 @@
 package task;
 
-import task.manager.Status;
-
 
 public class Subtask extends Task {
 

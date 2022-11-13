@@ -1,4 +1,4 @@
-package task.manager;
+package task;
 
 public enum Status {
     NEW,

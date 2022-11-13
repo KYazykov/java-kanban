@@ -1,4 +1,4 @@
-package task.manager;
+package manager;
 
 public class Managers {
 

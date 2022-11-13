@@ -1,11 +1,11 @@
-import task.manager.InMemoryTaskManager;
+import manager.InMemoryTaskManager;
 import task.Epic;
 import task.Subtask;
 import task.Task;
 
-import static task.manager.Status.NEW;
-import static task.manager.Status.IN_PROGRESS;
-import static task.manager.Status.DONE;
+import static task.Status.NEW;
+import static task.Status.IN_PROGRESS;
+import static task.Status.DONE;
 
 public class Main {
 
