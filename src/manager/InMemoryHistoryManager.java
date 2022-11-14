@@ -78,6 +78,7 @@ public class InMemoryHistoryManager implements HistoryManager {
                 first.prev = null;
             }
         }
+        nodes.remove(id);
     }
 
     /**
