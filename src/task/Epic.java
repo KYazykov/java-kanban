@@ -46,4 +46,8 @@ public class Epic extends Task {
         subtaskIds.remove(subtaskId);
 
     }
+    @Override
+    public Integer getEpicID() {
+        return null;
+    }
 }

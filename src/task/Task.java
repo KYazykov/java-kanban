@@ -85,4 +85,7 @@ public class Task {
                 ", status='" + status + '\'' +
                 '}';
     }
+    public Integer getEpicID() {
+        return null;
+    }
 }
