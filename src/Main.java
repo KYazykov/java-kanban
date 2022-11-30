@@ -9,6 +9,7 @@ import java.io.IOException;
 import static task.Status.NEW;
 import static task.Status.IN_PROGRESS;
 import static task.Status.DONE;
+import static task.TaskType.*;
 
 public class Main {
 
@@ -16,13 +17,13 @@ public class Main {
 
         InMemoryTaskManager manager = new InMemoryTaskManager();
 
-        Epic epic1 = new Epic("Переезд", "Переезд из одного офиса в другой", NEW);
+        Epic epic1 = new Epic("Переезд", "Переезд из одного офиса в другой", NEW, EPIC);
 
-        Subtask subtask1 = new Subtask("Собрать вещи", "Упаковать стулья", NEW, 0);
-        Subtask subtask2 = new Subtask("Накопить деньги", "Собрать 10 000", NEW, 0);
-        Epic epic2 = new Epic("Сходить в магазин", "Купить продукты", NEW);
-        Subtask subtask3 = new Subtask("Купить овощи", "Купить картошку и редис", NEW, 3);
-        Task task = new Task("Посмотреть футбол", "Включить телевизор", NEW);
+        Subtask subtask1 = new Subtask("Собрать вещи", "Упаковать стулья", NEW, SUBTASK, 0);
+        Subtask subtask2 = new Subtask("Накопить деньги", "Собрать десять тысяч", NEW, SUBTASK, 0);
+        Epic epic2 = new Epic("Сходить в магазин", "Купить продукты", NEW, EPIC);
+        Subtask subtask3 = new Subtask("Купить овощи", "Купить картошку и редис",NEW,SUBTASK, 3);
+        Task task = new Task("Посмотреть футбол", "Включить телевизор", DONE, TASK);
 
         manager.addEpic(epic1);
         System.out.println(epic1.getId());
@@ -39,8 +40,11 @@ public class Main {
         System.out.println(manager.getEpics());
         System.out.println(manager.getSubtasks());
 
-        Subtask subtaskChange1 = new Subtask(1, "Собрать вещи", "Упаковать стулья", DONE, 0);
-        Subtask subtaskChange2 = new Subtask(2, "Накопить деньги", "Собрать 10 000", IN_PROGRESS, 0);
+        Subtask subtaskChange1 = new Subtask(1, "Собрать вещи", "Упаковать стулья",
+                DONE,SUBTASK, 0);
+        Subtask subtaskChange2 = new Subtask(2, "Накопить деньги", "Собрать 10 000",
+                IN_PROGRESS,SUBTASK,
+                0);
 
         manager.changeSubtask(subtaskChange2);
         manager.changeSubtask(subtaskChange1);

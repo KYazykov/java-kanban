@@ -6,20 +6,17 @@ import java.util.*;
 
 /**
  * Класс реализует методы интерфейса по истории просмотра задачи
- *
  */
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final Map <Integer, Node> nodes = new HashMap<>();
+    private final Map<Integer, Node> nodes = new HashMap<>();
 
     Node first;
     Node last;
 
 
-
     /**
      * Метод привязывает ноду к последнему указателю
-     *
      */
     private void linkLast(Task task) {
         final Node newNode = new Node(task, last, null);
@@ -36,7 +33,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         final List<Task> history = new ArrayList<>();
 
         Node curNode = first;
-        while (curNode != null){
+        while (curNode != null) {
             history.add(curNode.value);
             curNode = curNode.next;
         }
@@ -54,6 +51,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         nodes.put(task.getId(), last);
 
     }
+
     @Override
     public void removeHistory(int id) {
         Node node = nodes.get(id);
@@ -63,16 +61,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (node != first) {
             node.prev.next = node.next;
             if (node.next == null) {
-            last = node.prev;
+                last = node.prev;
             }
-            if (node.next != null){
+            if (node.next != null) {
                 node.next.prev = node.prev;
             }
         }
         if (node == first) {
             first = node.next;
             if (first == null) {
-            last = null;
+                last = null;
             }
             if (first != null) {
                 first.prev = null;
@@ -83,40 +81,40 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     /**
      * Класс создает связной список для методов по просмотру истории
-     *
      */
-   static class Node {
+    static class Node {
         private Task value;
         private Node prev;
         private Node next;
-        public Node (Task value, Node prev, Node next) {
+
+        public Node(Task value, Node prev, Node next) {
             this.value = value;
             this.next = next;
             this.prev = prev;
         }
 
-       public Task getValue() {
-           return value;
-       }
+        public Task getValue() {
+            return value;
+        }
 
-       public void setValue(Task value) {
-           this.value = value;
-       }
+        public void setValue(Task value) {
+            this.value = value;
+        }
 
-       public Node getPrev() {
-           return prev;
-       }
+        public Node getPrev() {
+            return prev;
+        }
 
-       public void setPrev(Node prev) {
-           this.prev = prev;
-       }
+        public void setPrev(Node prev) {
+            this.prev = prev;
+        }
 
-       public Node getNext() {
-           return next;
-       }
+        public Node getNext() {
+            return next;
+        }
 
-       public void setNext(Node next) {
-           this.next = next;
-       }
-   }
+        public void setNext(Node next) {
+            this.next = next;
+        }
+    }
 }

@@ -4,10 +4,13 @@ import java.util.Objects;
 
 public class Task {
 
+
+    private TaskType type;
     private int id;
     private String name;
     private String description;
     private Status status;
+    private int epicID;
 
     public Task(int id, String name, String description, Status status) {
         this.id = id;
@@ -16,10 +19,46 @@ public class Task {
         this.status = status;
     }
 
+    public Task(int id, String name, String description, Status status, TaskType type) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = type;
+    }
+
+    public Task(int id, String name, String description, Status status, TaskType type, int epicID) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = type;
+        this.epicID = epicID;
+    }
+
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
+    }
+
+    public Task(String name, String description, Status status, TaskType type) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = type;
+    }
+
+    public Task() {
+
+    }
+
+    public TaskType getType() {
+        return type;
+    }
+
+    public void setType(TaskType type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -87,5 +126,10 @@ public class Task {
     }
     public Integer getEpicID() {
         return null;
+    }
+
+    public void setEpicID(int epicID) {
+
+        this.epicID = epicID;
     }
 }

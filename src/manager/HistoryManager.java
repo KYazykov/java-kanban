@@ -17,7 +17,6 @@ public interface HistoryManager {
     void addTaskHistory(Task task);
 
 
-
     /**
      * Метод удаляет задачу из истории просмотров
      */

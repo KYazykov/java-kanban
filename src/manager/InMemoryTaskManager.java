@@ -5,6 +5,7 @@ import task.Status;
 import task.Subtask;
 import task.Task;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,18 +19,15 @@ public class InMemoryTaskManager implements TaskManager {
     private int generatorId = 0;
 
 
+    protected static HashMap<Integer, Task> tasks = new HashMap<>();
+    protected static HashMap<Integer, Epic> epics = new HashMap<>();
+    protected static HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
-    protected HashMap<Integer, Task> tasks = new HashMap<>();
-    protected HashMap<Integer, Epic> epics = new HashMap<>();
-    protected HashMap<Integer, Subtask> subtasks = new HashMap<>();
-
-    private HistoryManager historyManager;
+    protected static HistoryManager historyManager;
 
     public InMemoryTaskManager() {
         historyManager = Managers.getDefaultHistory();
     }
-
-
 
 
     public Status getStatus() {
@@ -82,6 +80,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(int id) {
+        if (tasks.get(id) == null) {
+            return null;
+        }
         Task task = tasks.get(id);
         historyManager.addTaskHistory(task);
         return tasks.get(task.getId());
@@ -90,6 +91,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpic(int id) {
+        if (epics.get(id) == null) {
+            return null;
+        }
         Epic epic = epics.get(id);
         historyManager.addTaskHistory(epic);
         return epics.get(epic.getId());
@@ -97,6 +101,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Subtask getSubtask(int id) {
+        if (subtasks.get(id) == null) {
+            return null;
+        }
         Subtask subtask = subtasks.get(id);
         historyManager.addTaskHistory(subtask);
         return subtasks.get(subtask.getId());
