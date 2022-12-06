@@ -20,7 +20,7 @@ public class CSVTaskFormatter {
      * @param task принимает задачу
      * @return taskString возвращает сроку
      */
-    public static String toString(Task task) {
+    public String toString(Task task) {
 
         String taskString = task.getId() + ", " + task.getName() + ", " + task.getDescription() + ", " + task.getStatus() + ", " +
                 task.getType().toString() + ";";
