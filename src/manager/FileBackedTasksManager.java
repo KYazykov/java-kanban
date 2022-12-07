@@ -8,6 +8,7 @@ import task.TaskType;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,6 @@ import static task.TaskType.*;
  * Класс служит для работы с менеджером задач в файле
  */
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private static File file;
 
     /**
      * Основной метод для использования всего доступного функционала
@@ -28,9 +28,22 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
      * @param args
      * @throws ManagerSaveException
      */
+
+    private File file;
     public static void main(String[] args) throws ManagerSaveException {
 
-        FileBackedTasksManager fileBackedTasksManager = loadFromFile(file);
+        File pathToFile = Path.of("tasks.txt").toFile();
+
+       try {
+           if (!Files.exists(Paths.get("tasks.txt"))) {
+               Files.createFile(Paths.get("tasks.txt"));
+           }
+       } catch(IOException e) {
+           System.out.println("Ошибка при создании файла");
+           e.printStackTrace();
+       }
+
+        FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(pathToFile);
 
         Epic epic1 = new Epic("Переезд", "Переезд из одного офиса в другой", NEW, EPIC);
 
@@ -67,11 +80,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         System.out.println(fileBackedTasksManager.getHistory());
 
+
+
     }
 
-    public FileBackedTasksManager(File file) {
-        this.file = file;
+    public FileBackedTasksManager() {
     }
+
 
     /**
      * Метод для восстанавлиния данных менеджера из файла при запуске программы
@@ -81,11 +96,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
      * @throws ManagerSaveException
      */
     static FileBackedTasksManager loadFromFile(File file) throws ManagerSaveException {
+
+
+
         CSVTaskFormatter csvTaskFormatter = new CSVTaskFormatter();
-        InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
+        fileBackedTasksManager.setFile(file);
+        if (file.length() == 0) {
+            return fileBackedTasksManager;
+        }
+
 
         try {
-            String fileText = Files.readString(Path.of("tasks.txt"));
+            String fileText = Files.readString(file.toPath());
 
             int generatorId = 0;
 
@@ -133,19 +157,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             for (Integer id : historyParse) {
                 if (new InMemoryTaskManager().getTask(id) != null) {
                     Task task = new InMemoryTaskManager().getTask(id);
-                    inMemoryHistoryManager.addTaskHistory(task);
+                    historyManager.addTaskHistory(task);
                 } else {
                     continue;
                 }
                 if (new InMemoryTaskManager().getSubtask(id) != null) {
                     Task task = new InMemoryTaskManager().getSubtask(id);
-                    inMemoryHistoryManager.addTaskHistory(task);
+                    historyManager.addTaskHistory(task);
                 } else {
                     continue;
                 }
                 if (new InMemoryTaskManager().getEpic(id) != null) {
                     Task task = new InMemoryTaskManager().getEpic(id);
-                    inMemoryHistoryManager.addTaskHistory(task);
+                    historyManager.addTaskHistory(task);
                 }
             }
 
@@ -154,7 +178,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             throw new ManagerSaveException(e.getMessage());
         }
 
-        return new FileBackedTasksManager(file);
+        return fileBackedTasksManager;
     }
 
 
@@ -321,6 +345,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public ArrayList<Subtask> getSubtasks() {
 
         return super.getSubtasks();
+    }
+    public void setFile(File file) {
+        this.file = file;
     }
 }
 
