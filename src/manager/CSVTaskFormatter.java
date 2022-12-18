@@ -2,12 +2,12 @@ package manager;
 
 import task.*;
 
-
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-
-
+import java.util.Arrays;
 import java.util.List;
-import java.util.regex.*;
+import java.util.stream.Collectors;
 
 /**
  * Класс реализует методы по форматированию задач и истории в строки и обратно
@@ -23,13 +23,13 @@ public class CSVTaskFormatter {
     public String toString(Task task) {
 
         String taskString = task.getId() + ", " + task.getName() + ", " + task.getDescription() + ", " + task.getStatus() + ", " +
-                task.getType().toString() + ";";
+                task.getType().toString();
         if (task.getEpicID() != null) {
             String[] split = taskString.split(";");
             taskString = split[0];
-            taskString = taskString + ", " + task.getEpicID().toString() + ";";
+            taskString = taskString + ", " + task.getEpicID().toString();
         }
-
+        taskString = taskString + ", " + task.getStartTime() + "," + task.getDuration() + ";";
         return taskString;
     }
 
@@ -48,27 +48,35 @@ public class CSVTaskFormatter {
         task.setDescription(tasks[2].trim());
         task.setStatus(Status.valueOf(tasks[3].trim()));
         task.setType(TaskType.valueOf(((tasks[4].trim()))));
-
+        if (!task.getType().equals(TaskType.SUBTASK)) {
+            task.setStartTime(ZonedDateTime.parse(tasks[5].trim()));
+            task.setDuration(Duration.parse(tasks[6].trim()));
+        }
         int a = task.getId();
         String b = task.getName();
         String c = task.getDescription();
         Status status = task.getStatus();
         TaskType taskType = task.getType();
+        ZonedDateTime dataTime = task.getStartTime();
+        Duration duration = task.getDuration();
 
         if (task.getType().equals(TaskType.SUBTASK)) {
             task.setEpicID(Integer.parseInt(tasks[5].trim()));
+            task.setStartTime(ZonedDateTime.parse(tasks[6].trim()));
+            task.setDuration(Duration.parse(tasks[7].trim()));
 
-            Subtask subtask = new Subtask(a, b, c, status, taskType, Integer.parseInt(tasks[5].trim()));
+            Subtask subtask = new Subtask(a, b, c, status, taskType, Integer.parseInt(tasks[5].trim())
+                    , ZonedDateTime.parse(tasks[6].trim()), Duration.parse(tasks[7].trim()));
             return subtask;
         } else if (task.getType().equals(TaskType.EPIC)) {
-            Epic epic = new Epic(a, b, c, status, taskType);
+            Epic epic = new Epic(a, b, c, status, taskType, dataTime, duration);
             return epic;
         }
         return task;
     }
 
     /**
-     * Метод преобразует историю просмотка задач в строку
+     * Метод преобразует историю просмотра задач в строку
      *
      * @param manager
      * @return сроку истории просмотра задач
@@ -78,13 +86,9 @@ public class CSVTaskFormatter {
         List<Task> history = new ArrayList<>(manager.getHistory());
 
         for (Task task : history) {
-            sb.append(task);
-
+            sb.append(task.getId() + " ");
         }
-        String historyString = sb.toString();
-
-
-        return historyString;
+        return sb.toString();
     }
 
     /**
@@ -94,19 +98,16 @@ public class CSVTaskFormatter {
      * @return возвращает список id задач
      */
     static List<Integer> historyFromString(String value) {
+        List<Integer> historyZero = new ArrayList<>();
 
-        List<Integer> history = new ArrayList<>();
         if (value.isBlank()) {
-            return history;
+            return historyZero;
         }
-        Pattern pat = Pattern.compile("[-]?[0-9]+(.[0-9]+)?");
-        Matcher matcher = pat.matcher(value);
-        while (matcher.find()) {
-            history.add(Integer.parseInt(matcher.group()));
-        }
-        ;
 
-        return history;
+        List<String> history = new ArrayList<>(Arrays.asList(value.split(" ")));
+
+
+        return history.stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 
     /**
@@ -115,7 +116,7 @@ public class CSVTaskFormatter {
      * @return возвращает строку
      */
     public String getHeader() {
-        return "id, name,  description, status, type, epic:";
+        return "id, name,  description, status, type, epic, startTime, duration*";
     }
 
 }

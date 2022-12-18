@@ -1,5 +1,7 @@
 package task;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -12,14 +14,24 @@ public class Task {
     private Status status;
     private int epicID;
 
-    public Task(int id, String name, String description, Status status) {
+
+    private ZonedDateTime startTime;
+    private Duration duration;
+
+    public Task(int id, String name, String description, Status status,
+                ZonedDateTime startTime, Duration duration) {
+        this.startTime = startTime;
+        this.duration = duration;
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
     }
 
-    public Task(int id, String name, String description, Status status, TaskType type) {
+    public Task(int id, String name, String description, Status status, TaskType type,
+                ZonedDateTime startTime, Duration duration) {
+        this.startTime = startTime;
+        this.duration = duration;
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,7 +39,10 @@ public class Task {
         this.type = type;
     }
 
-    public Task(int id, String name, String description, Status status, TaskType type, int epicID) {
+    public Task(int id, String name, String description, Status status, TaskType type, int epicID,
+                ZonedDateTime startTime, Duration duration) {
+        this.startTime = startTime;
+        this.duration = duration;
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,13 +51,19 @@ public class Task {
         this.epicID = epicID;
     }
 
-    public Task(String name, String description, Status status) {
+    public Task(String name, String description, Status status,
+                ZonedDateTime startTime, Duration duration) {
+        this.startTime = startTime;
+        this.duration = duration;
         this.name = name;
         this.description = description;
         this.status = status;
     }
 
-    public Task(String name, String description, Status status, TaskType type) {
+    public Task(String name, String description, Status status, TaskType type,
+                ZonedDateTime startTime, Duration duration) {
+        this.startTime = startTime;
+        this.duration = duration;
         this.name = name;
         this.description = description;
         this.status = status;
@@ -52,6 +73,7 @@ public class Task {
     public Task() {
 
     }
+
 
     public TaskType getType() {
         return type;
@@ -124,6 +146,7 @@ public class Task {
                 ", status='" + status + '\'' +
                 '}';
     }
+
     public Integer getEpicID() {
         return null;
     }
@@ -131,5 +154,21 @@ public class Task {
     public void setEpicID(int epicID) {
 
         this.epicID = epicID;
+    }
+
+    public ZonedDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(ZonedDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }

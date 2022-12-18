@@ -4,6 +4,7 @@ import task.Epic;
 import task.Subtask;
 import task.Task;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 
@@ -46,7 +47,7 @@ public interface TaskManager {
     /**
      * Метод удаляет все подзадачи
      */
-    void deleteAllSubtasks(Epic epic);
+    void deleteAllSubtasks();
 
     /**
      * Метод находит выбранную задачу
@@ -108,13 +109,6 @@ public interface TaskManager {
     void deleteEpic(Epic epic);
 
     /**
-     * Метод удаляет подзадачи при удалении эпика
-     *
-     * @param subtask принимает значение подзадачи
-     */
-    void deleteEpicSubtasks(Subtask subtask);
-
-    /**
      * Метод удаляет подзадачу
      *
      * @param subtask принимает значение подзадачи
@@ -150,5 +144,13 @@ public interface TaskManager {
      */
     void addEpic(Epic epic);
 
+    /**
+     * Метод вычисляет время завершения задачи
+     */
+    ZonedDateTime getEndTime(Task task);
 
+    /**
+     * Метод сортирует задачи по приоритету
+     */
+    ArrayList<Task> getPrioritizedTasks();
 }

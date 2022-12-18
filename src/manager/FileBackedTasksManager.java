@@ -5,16 +5,23 @@ import task.Subtask;
 import task.Task;
 import task.TaskType;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.io.IOException;
 
-import static task.Status.*;
+import static task.Status.DONE;
+import static task.Status.NEW;
 import static task.TaskType.*;
 
 /**
@@ -30,61 +37,97 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
      */
 
     private File file;
+    static final ZoneId zone = ZoneId.of("Europe/Moscow");
+
+
     public static void main(String[] args) throws ManagerSaveException {
 
         File pathToFile = Path.of("tasks.txt").toFile();
 
-       try {
-           if (!Files.exists(Paths.get("tasks.txt"))) {
-               Files.createFile(Paths.get("tasks.txt"));
-           }
-       } catch(IOException e) {
-           System.out.println("Ошибка при создании файла");
-           e.printStackTrace();
-       }
+        try {
+            if (!Files.exists(Paths.get("tasks.txt"))) {
+                Files.createFile(Paths.get("tasks.txt"));
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка при создании файла");
+            e.printStackTrace();
+        }
 
         FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(pathToFile);
 
-        Epic epic1 = new Epic("Переезд", "Переезд из одного офиса в другой", NEW, EPIC);
+        Epic epic = new Epic("Переезд", "Переезд из одного офиса в другой", NEW, EPIC, ZonedDateTime.of(
+                LocalDateTime.of(1970, 1, 1, 0, 0), zone), Duration.ofMinutes(0));
 
-        Subtask subtask1 = new Subtask("Собрать вещи", "Упаковать стулья", NEW, SUBTASK, 0);
-        Subtask subtask2 = new Subtask("Накопить деньги", "Собрать десять тысяч", NEW, SUBTASK, 0);
-        Epic epic2 = new Epic("Сходить в магазин", "Купить продукты", NEW, EPIC);
-        Subtask subtask3 = new Subtask("Купить овощи", "Купить картошку и редис", NEW, SUBTASK, 3);
-        Task task = new Task("Посмотреть футбол", "Включить телевизор", DONE, TASK);
+        Subtask subtask1 = new Subtask("Собрать вещи", "Упаковать стулья", NEW, SUBTASK, 0
+                , ZonedDateTime.of(
+                LocalDateTime.of(2022, 12, 16, 20, 0), zone)
+                , Duration.ofMinutes(4000));
+        Subtask subtask2 = new Subtask("Накопить деньги", "Собрать десять тысяч", NEW, SUBTASK, 0
+                , ZonedDateTime.of(
+                LocalDateTime.of(2022, 12, 15, 10, 0), zone)
+                , Duration.ofMinutes(8000));
+        Epic epic2 = new Epic("Сходить в магазин", "Купить продукты", NEW, EPIC
+                , ZonedDateTime.of(
+                LocalDateTime.of(1970, 1, 1, 0, 0), zone), Duration.ofMinutes(0));
+        Subtask subtask3 = new Subtask("Купить овощи", "Купить картошку и редис", NEW, SUBTASK, 3
+                , ZonedDateTime.of(
+                LocalDateTime.of(2022, 12, 10, 12, 0), zone)
+                , Duration.ofMinutes(100));
 
-        fileBackedTasksManager.addEpic(epic1);
+        Task task = new Task("Посмотреть футбол", "Включить телевизор", DONE, TASK
+                , ZonedDateTime.of(
+                LocalDateTime.of(2023, 1, 10, 12, 0)
+                , zone), Duration.ofMinutes(120));
+
+
+        System.out.println(fileBackedTasksManager.getEpics());
+        fileBackedTasksManager.addEpic(epic);
+        System.out.println(epic.getId());
+
         fileBackedTasksManager.addSubtask(subtask1);
+        System.out.println(subtask1);
+
         fileBackedTasksManager.addSubtask(subtask2);
+
+
         fileBackedTasksManager.addEpic(epic2);
         fileBackedTasksManager.addSubtask(subtask3);
         fileBackedTasksManager.addTask(task);
 
-        System.out.println("2");
-        System.out.println(fileBackedTasksManager.getSubtasks());
-        System.out.println(fileBackedTasksManager.getEpics());
+        Subtask subtask4 = new Subtask(4, "Купить овощи", "Купить картошку и редис", NEW, SUBTASK, 3
+                , ZonedDateTime.of(
+                LocalDateTime.of(2022, 12, 10, 16, 0), zone)
+                , Duration.ofMinutes(100));
+
+        fileBackedTasksManager.changeSubtask(subtask4);
+
+        Task task2 = new Task(5, "Посмотреть футбол", "Включить телевизор", DONE, TASK
+                , ZonedDateTime.of(
+                LocalDateTime.of(2022, 12, 10, 13, 0)
+                , zone), Duration.ofMinutes(120));
 
 
-        System.out.println("4");
+        fileBackedTasksManager.changeTask(task2);
 
 
-        System.out.println(fileBackedTasksManager.getTask(5));
+        System.out.println(fileBackedTasksManager.getEndTime(epic));
+        System.out.println(fileBackedTasksManager.getEndTime(epic2));
+        System.out.println(fileBackedTasksManager.getEndTime(subtask1));
+        System.out.println(fileBackedTasksManager.getEndTime(subtask2));
+        System.out.println(fileBackedTasksManager.getEndTime(subtask3));
+        System.out.println(fileBackedTasksManager.getEndTime(task));
 
-        System.out.println(fileBackedTasksManager.getSubtask(1));
-        System.out.println(fileBackedTasksManager.getEpic(0));
-        System.out.println(fileBackedTasksManager.getSubtask(2));
-        System.out.println(fileBackedTasksManager.getSubtask(1));
 
-
-        System.out.println("История");
-
+        fileBackedTasksManager.getEpic(0);
+        fileBackedTasksManager.getTask(5);
+        fileBackedTasksManager.getSubtask(1);
         System.out.println(fileBackedTasksManager.getHistory());
-
+        System.out.print(fileBackedTasksManager.getPrioritizedTasks());
 
 
     }
 
-    public FileBackedTasksManager() {
+    public FileBackedTasksManager(File pathToFile) {
     }
 
 
@@ -95,13 +138,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
      * @return
      * @throws ManagerSaveException
      */
-    static FileBackedTasksManager loadFromFile(File file) throws ManagerSaveException {
+    public static FileBackedTasksManager loadFromFile(File file) throws ManagerSaveException {
 
-
+        File pathToFile = Path.of("tasks.txt").toFile();
 
         CSVTaskFormatter csvTaskFormatter = new CSVTaskFormatter();
 
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(pathToFile);
         fileBackedTasksManager.setFile(file);
         if (file.length() == 0) {
             return fileBackedTasksManager;
@@ -113,7 +156,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
             int generatorId = 0;
 
-            String[] split = fileText.split(":");
+            String[] split = fileText.split("\\*");
             String splitHead = split[1].trim();
             String[] splitString = splitHead.split(";");
 
@@ -177,7 +220,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
         }
-
         return fileBackedTasksManager;
     }
 
@@ -240,8 +282,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void deleteAllSubtasks(Epic epic) {
-        super.deleteAllSubtasks(epic);
+    public void deleteAllSubtasks() {
+        super.deleteAllSubtasks();
         save();
     }
 
@@ -277,12 +319,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void deleteEpicSubtasks(Subtask subtask) {
-        super.deleteEpicSubtasks(subtask);
-        save();
-    }
-
-    @Override
     public void deleteSubtask(Subtask subtask) {
         super.deleteSubtask(subtask);
         save();
@@ -308,10 +344,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public List<Task> getHistory() {
-        super.getHistory();
+        List<Task> a = super.getHistory();
         save();
-        return super.getHistory();
-
+        return a;
     }
 
     @Override
@@ -346,8 +381,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         return super.getSubtasks();
     }
+
     public void setFile(File file) {
         this.file = file;
+    }
+
+    @Override
+    public ZonedDateTime getEndTime(Task task) {
+        return super.getEndTime(task);
+    }
+
+    @Override
+    public ArrayList<Task> getPrioritizedTasks() {
+        return super.getPrioritizedTasks();
     }
 }
 
