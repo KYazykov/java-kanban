@@ -32,7 +32,8 @@ public class KVTaskClient {
 
     /**
      * сохраняет состояние менеджера задач через запрос
-     * @param key ключ
+     *
+     * @param key  ключ
      * @param json значение
      */
     public void put(String key, String json) {
@@ -58,7 +59,8 @@ public class KVTaskClient {
     }
 
     /**
-     *  возвращает состояние менеджера задач через запрос
+     * возвращает состояние менеджера задач через запрос
+     *
      * @param key
      * @return
      */

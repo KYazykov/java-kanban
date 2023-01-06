@@ -1,28 +1,28 @@
 import Server.HttpTaskManager;
 import Server.KVServer;
-import Server.KVTaskClient;
-import manager.*;
+import manager.HistoryManager;
+import manager.Managers;
+import manager.TaskManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.Epic;
-import task.Status;
 import task.Subtask;
 import task.Task;
-import manager.InMemoryHistoryManager;
-import manager.InMemoryTaskManager;
 
 import java.io.IOException;
-import java.time.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static task.Status.DONE;
 import static task.Status.NEW;
 import static task.TaskType.*;
-import static task.TaskType.SUBTASK;
 
-public class HttpTaskManagerTest <T extends TaskManagerTest<HttpTaskManager>> {
+public class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
     private KVServer server;
     private TaskManager manager;
     private HistoryManager historyManager;

@@ -46,7 +46,7 @@ public class Main {
                     NEW,
                     EPIC,
                     ZonedDateTime.of(
-                    LocalDateTime.of(1970, 1, 1, 0, 0), zone),
+                            LocalDateTime.of(1970, 1, 1, 0, 0), zone),
                     Duration.ofMinutes(0));
 
             Subtask subtask1 = new Subtask("Собрать вещи",
@@ -55,7 +55,7 @@ public class Main {
                     SUBTASK,
                     0,
                     ZonedDateTime.of(
-                    LocalDateTime.of(2022, 12, 16, 20, 0), zone),
+                            LocalDateTime.of(2022, 12, 16, 20, 0), zone),
                     Duration.ofMinutes(4000));
             Subtask subtask2 = new Subtask("Накопить деньги",
                     "Собрать десять тысяч",
@@ -63,28 +63,28 @@ public class Main {
                     SUBTASK,
                     0,
                     ZonedDateTime.of(
-                    LocalDateTime.of(2022, 12, 15, 10, 0), zone),
+                            LocalDateTime.of(2022, 12, 15, 10, 0), zone),
                     Duration.ofMinutes(8000));
 
             Epic epic2 = new Epic("Сходить в магазин", "Купить продукты",
                     NEW,
                     EPIC,
                     ZonedDateTime.of(
-                    LocalDateTime.of(1970, 1, 1, 0, 0), zone), Duration.ofMinutes(0));
+                            LocalDateTime.of(1970, 1, 1, 0, 0), zone), Duration.ofMinutes(0));
             Subtask subtask3 = new Subtask("Купить овощи", "Купить картошку и редис",
                     NEW,
                     SUBTASK,
                     1,
                     ZonedDateTime.of(
-                    LocalDateTime.of(2022, 12, 10, 12, 0), zone),
+                            LocalDateTime.of(2022, 12, 10, 12, 0), zone),
                     Duration.ofMinutes(100));
 
             Task task = new Task("Посмотреть футбол", "Включить телевизор",
                     DONE,
                     TASK,
                     ZonedDateTime.of(
-                    LocalDateTime.of(2023, 1, 10, 12, 0)
-                    , zone), Duration.ofMinutes(120));
+                            LocalDateTime.of(2023, 1, 10, 12, 0)
+                            , zone), Duration.ofMinutes(120));
 
 
             httpTaskManager.addEpic(epic);

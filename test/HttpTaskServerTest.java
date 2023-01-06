@@ -1,34 +1,27 @@
 import Server.HttpTaskServer;
 import Server.InstantAdapter;
 import Server.KVServer;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+import org.junit.jupiter.api.*;
 import task.Epic;
 import task.Status;
 import task.Subtask;
 import task.Task;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.*;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static task.Status.DONE;
 import static task.Status.NEW;
 import static task.TaskType.*;
-
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import org.junit.jupiter.api.*;
-
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HttpTaskServerTest { // У меня какие-то проблемы с сетью или ноутбуком, но тесты срабатывают не с первого раза
@@ -529,6 +522,7 @@ class HttpTaskServerTest { // У меня какие-то проблемы с с
             e.printStackTrace();
         }
     }
+
     @Test
     void shouldDeleteEpicId() {
         HttpClient client = HttpClient.newHttpClient();

@@ -23,5 +23,4 @@ public class DurationAdapter extends TypeAdapter<Duration> {
     }
 
 
-
 }

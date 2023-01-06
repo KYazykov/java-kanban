@@ -14,9 +14,10 @@ import java.time.format.DateTimeFormatter;
 public class ZonedDateTimeAdapter extends TypeAdapter<ZonedDateTime> {
 
     private static final DateTimeFormatter formatterReaderWriter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+
     @Override
     public void write(JsonWriter jsonWriter, ZonedDateTime zonedDateTime) throws IOException {
-        if(zonedDateTime == null){
+        if (zonedDateTime == null) {
             jsonWriter.value("Не задана");
             return;
         }
@@ -26,7 +27,7 @@ public class ZonedDateTimeAdapter extends TypeAdapter<ZonedDateTime> {
     @Override
     public ZonedDateTime read(JsonReader jsonReader) throws IOException {
         String curString = jsonReader.nextString();
-        if(curString.equals("Не задана")){
+        if (curString.equals("Не задана")) {
             return null;
         }
         return ZonedDateTime.parse(curString, formatterReaderWriter);
