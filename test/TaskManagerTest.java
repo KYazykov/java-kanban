@@ -507,7 +507,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 , zone), Duration.ofMinutes(120));
         manager.addEpic(epic);
         manager.addTask(task);
-        manager.deleteTask(epic);
+        manager.deleteTask(0);
         Assertions.assertEquals(epic, manager.getEpic(0), "Удаляет эпик при удалении таска");
         Assertions.assertEquals(task, manager.getTask(1), "Удаляет таск при неправильном параметре");
         manager.deleteAllTasks();
@@ -520,7 +520,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 LocalDateTime.of(2022, 12, 28, 12, 0)
                 , zone), Duration.ofMinutes(120));
         manager.addTask(task2);
-        manager.deleteTask(task2);
+        manager.deleteTask(0);
         Assertions.assertNull(manager.getTask(0), "Возвращает таск несмотря на его удаление");
         manager.deleteAllTasks();
     }
@@ -540,7 +540,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addEpic(epic);
         manager.addSubtask(subtask1);
         manager.addSubtask(subtask2);
-        manager.deleteEpic(epic);
+        manager.deleteEpic(0);
 
         Assertions.assertNull(manager.getEpic(0), "Возвращает эпик несмотря на его удаление");
         Assertions.assertNull(manager.getSubtask(1), "Возвращает сабтаск несмотря на удаление эпика");
@@ -563,7 +563,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addEpic(epic);
         manager.addSubtask(subtask1);
         manager.addSubtask(subtask2);
-        manager.deleteSubtask(subtask1);
+        manager.deleteSubtask(1);
 
         Assertions.assertEquals(epic, manager.getEpic(0), "Неправильный эпик при удалении сабтаска");
         Assertions.assertNull(manager.getSubtask(1), "Возвращает не null при удалении сабтаска");

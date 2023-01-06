@@ -38,6 +38,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private File file;
     static final ZoneId zone = ZoneId.of("Europe/Moscow");
+    public FileBackedTasksManager(HistoryManager historyManager) {
+        super(historyManager);
+    }
 
 
     public static void main(String[] args) throws ManagerSaveException {
@@ -128,6 +131,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public FileBackedTasksManager(File pathToFile) {
+    }
+    public FileBackedTasksManager() {
     }
 
 
@@ -227,7 +232,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     /**
      * метод сохраняет все задачи, подзадачи, эпики и историю просмотра любых задач в файле.
      */
-    public static void save() throws ManagerSaveException {
+    public void save() throws ManagerSaveException {
         CSVTaskFormatter csvTaskFormatter = new CSVTaskFormatter();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("tasks.txt"))) {
@@ -307,20 +312,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void deleteTask(Task task) {
-        super.deleteTask(task);
+    public void deleteTask(int id) {
+        super.deleteTask(id);
         save();
     }
 
     @Override
-    public void deleteEpic(Epic epic) {
-        super.deleteEpic(epic);
+    public void deleteEpic(int id) {
+        super.deleteEpic(id);
         save();
     }
 
     @Override
-    public void deleteSubtask(Subtask subtask) {
-        super.deleteSubtask(subtask);
+    public void deleteSubtask(int id) {
+        super.deleteSubtask(id);
         save();
     }
 

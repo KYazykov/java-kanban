@@ -6,27 +6,27 @@ import java.time.ZonedDateTime;
 
 public class Subtask extends Task {
 
-    private int epicID;
+    private int epicIDSubtask;
 
-    public Subtask(String name, String description, Status status, TaskType type, int epicID,
+    public Subtask(String name, String description, Status status, TaskType type, int epicIDSubtask,
                    ZonedDateTime startTime, Duration duration) {
         super(name, description, status, type, startTime, duration);
-        this.epicID = epicID;
+        this.epicIDSubtask = epicIDSubtask;
     }
 
-    public Subtask(int id, String name, String description, Status status, TaskType type, int epicID,
+    public Subtask(int id, String name, String description, Status status, TaskType type, int epicIDSubtask,
                    ZonedDateTime startTime, Duration duration) {
         super(id, name, description, status, type, startTime, duration);
-        this.epicID = epicID;
+        this.epicIDSubtask = epicIDSubtask;
     }
 
 
     public Integer getEpicID() {
-        return epicID;
+        return epicIDSubtask;
     }
 
     public void setEpicID(int epicID) {
 
-        this.epicID = epicID;
+        this.epicIDSubtask = epicIDSubtask;
     }
 }

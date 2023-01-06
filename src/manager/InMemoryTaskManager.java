@@ -37,6 +37,9 @@ public class InMemoryTaskManager implements TaskManager {
     public InMemoryTaskManager() {
         historyManager = Managers.getDefaultHistory();
     }
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
 
 
     public Status getStatus() {
@@ -211,50 +214,46 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteTask(Task task) {
-        try {
-            if (tasks.remove(task.getId()) != null) {
-                tasks.remove(task.getId());
-                historyManager.removeHistory(task.getId());
-            }
-        } catch (NullPointerException e) {
+    public void deleteTask(int id) {
+        if (tasks.get(id) != null) {
+            tasks.remove(id);
+            historyManager.removeHistory(id);
+        } else {
             System.out.println("Такой задачи не существует");
         }
     }
 
     @Override
-    public void deleteEpic(Epic epic) {
-        try {
+    public void deleteEpic(int id) {
+        if (epics.get(id) != null) {
+            Epic epic = epics.get(id);
             ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
             for (int subtaskId : subtaskIds) {
 
-                Subtask subtask = subtasks.get(subtaskId);
-                subtasks.remove(subtask.getId());
-                historyManager.removeHistory(subtask.getId());
+                subtasks.remove(subtaskId);
+                historyManager.removeHistory(subtaskId);
             }
-            epics.remove(epic.getId());
-            historyManager.removeHistory(epic.getId());
+            epics.remove(id);
+            historyManager.removeHistory(id);
 
-        } catch (NullPointerException e) {
+        } else {
             System.out.println("Такого эпика не существует");
         }
     }
 
 
     @Override
-    public void deleteSubtask(Subtask subtask) {
-
+    public void deleteSubtask(int id) {
+        if (subtasks.get(id) != null) {
+        Subtask subtask = subtasks.get(id);
         int epicId = subtask.getEpicID();
         Epic epic = epics.get(epicId);
-        try {
-            if (subtasks.containsKey(subtask.getId())) {
+        epic.deleteSubtaskID(id);
+        subtasks.remove(id);
+        updateEpicStatus(epic);
+        historyManager.removeHistory(id);
 
-                epic.deleteSubtaskID(subtask.getId());
-                subtasks.remove(subtask.getId());
-                updateEpicStatus(epic);
-                historyManager.removeHistory(subtask.getId());
-            }
-        } catch (NullPointerException e) {
+        } else {
             System.out.println("Такой подзадачи не существует");
         }
     }
@@ -290,7 +289,7 @@ public class InMemoryTaskManager implements TaskManager {
                                     || task.getStartTime().isAfter(task1.getStartTime().plus(task1.getDuration()))) {
                             } else {
                                 System.out.println("Ошибка, произошло пересечение задач");
-                                deleteTask(task);
+                                deleteTask(task.getId());
                                 return;
                             }
                         }
@@ -325,7 +324,7 @@ public class InMemoryTaskManager implements TaskManager {
                                     || subtask.getStartTime().isAfter(task.getStartTime().plus(task.getDuration()))) {
                             } else {
                                 System.out.println("Ошибка, произошло пересечение задач");
-                                deleteSubtask(subtask);
+                                deleteSubtask(subtask.getId());
                                 return;
                             }
                         }
@@ -354,7 +353,7 @@ public class InMemoryTaskManager implements TaskManager {
                                     || epic.getStartTime().isAfter(task.getStartTime().plus(task.getDuration()))) {
                             } else {
                                 System.out.println("Ошибка, произошло пересечение задач");
-                                deleteEpic(epic);
+                                deleteEpic(epic.getId());
                                 return;
                             }
                         }
@@ -400,12 +399,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    /**
-     * Метод приводит к показу истории просмотренных задач
-     *
-     * @return возвращает метод по показу истории просмотров
-     */
 
+    @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }

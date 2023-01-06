@@ -6,6 +6,7 @@ import task.Task;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -97,23 +98,23 @@ public interface TaskManager {
     /**
      * Метод удаляет выбранную задачу
      *
-     * @param task принимает значение задачи
+     * @param id принимает значение id задачи
      */
-    void deleteTask(Task task);
+    void deleteTask(int id);
 
     /**
      * Метод удаляет выбранный эпик и его подзадачи
      *
-     * @param epic принимает значение эпика
+     * @param id принимает значение id эпика
      */
-    void deleteEpic(Epic epic);
+    void deleteEpic(int id);
 
     /**
      * Метод удаляет подзадачу
      *
-     * @param subtask принимает значение подзадачи
+     * @param id принимает значение id подзадачи
      */
-    void deleteSubtask(Subtask subtask);
+    void deleteSubtask(int id);
 
     /**
      * Метод получает список всех подзадач определённого эпика
@@ -153,4 +154,11 @@ public interface TaskManager {
      * Метод сортирует задачи по приоритету
      */
     ArrayList<Task> getPrioritizedTasks();
+
+    /**
+     * Метод приводит к показу истории просмотренных задач
+     *
+     * @return возвращает метод по показу истории просмотров
+     */
+    List<Task> getHistory();
 }
